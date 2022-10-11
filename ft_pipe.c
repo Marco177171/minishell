@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 18:19:47 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/10 14:35:15 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/11 17:34:26 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ void	ft_manage_pipes(t_command *command_struct, char **envp)
 	int		index;
 	int		pipes[2];
 	int		*pid;
-	int		stdin_cpy = dup(0);
-	int		stdout_cpy = dup(1);
+	int		stdin_cpy;
+	int		stdout_cpy;
 
+	stdin_cpy = dup(0);
+	stdout_cpy = dup(1);
 	index = 0;
 	pid = malloc(sizeof(int) * command_struct->total_pipes);
 	while (index < command_struct->total_pipes)
