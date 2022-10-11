@@ -1,0 +1,86 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/01 17:11:31 by masebast          #+#    #+#             */
+/*   Updated: 2022/10/11 17:20:54 by masebast         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MINISHELL_H
+# define MINISHELL_H
+
+# include "./libft/libft.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <limits.h>
+# include <fcntl.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <signal.h>
+
+# define TRUE 1
+# define FALSE 0
+
+int	*g_exit_status;
+
+typedef struct s_command {
+	char	*command_string;
+	char	**pipe_matrix;
+	char	**word_matrix;
+	int		total_pipes;
+	int		pipes[2];
+	int		write_fd;
+	int		read_fd;
+	// char	*redirections;
+	// char	*output_file;
+	char	*operator;
+}	t_command;
+
+// UTILITY
+void	ft_error(void);
+int		ft_check_quotes(char *str);
+void	ft_split_pipes(t_command *command_struct);
+void	ft_free_matrix(char **m);
+int		ft_parsing(char *input, t_command *command_struct);
+int		ft_pipe_total(char *input);
+int		ft_count_pipes(char *str);
+int		ft_check_equal_presence(char *string);
+void	ft_remove_quotes(char *command);
+void	ft_manage_signals(void);
+
+// PIPES
+void	ft_manage_pipes(t_command *command_struct, char **envp);
+
+// REDIRECTIONS
+void	ft_redirect(char **word_matrix, char *current_output, int current_index, int fd);
+
+// ECHO
+int		ft_echo(t_command *command_struct, int pipe_index);
+int		ft_check_quote(char *str);
+void	ft_print_exit(void);
+int		ft_print_double_quote(char *string, int fd);
+int		ft_print_single_quote(char *string, int fd);
+int		ft_print_dollar(char *str, int fd);
+
+// BUILTINS
+int		ft_pwd(void);
+void	ft_exit(t_command *command_struct);
+int		ft_cd(t_command *command_struct);
+int		ft_env(t_command *command_struct, char **envp);
+int		ft_export(t_command *command_struct, char **envp);
+int		ft_unset(t_command *command_struct, char **envp);
+
+// OTHER COMMANDS
+int		ft_other_commands(t_command *command_struct, char **envp);
+int		ft_recognize_command(t_command *command_struct, int pipe_index, char **envp);
+
+// RLS
+// extern void	rl_replace_line(const char *text, int clear_undo);
+
+#endif

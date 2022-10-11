@@ -1,0 +1,53 @@
+readline(const char *prompt)
+    It returns the text contained in *prompt. We will use it to return recursively the text "minishell$ " at the begin of the program and at the end of each interaction.
+    It is contained in the library <readline/readline.h>.
+
+rl_clear_history
+    It deletes the history when the user quits the program using the "exit" command.
+    It is contained in the library <readline/readline.h>
+
+rl_on_new_line
+
+rl_replace_line
+rl_redisplay
+add_history
+    if a
+access
+fork
+wait
+waitpid
+wait3
+wait4
+signal
+sigaction
+sigemptyset
+sigaddset
+kill
+getcwd
+chdir
+stat
+lstat
+fstat
+unlink
+execve
+dup
+dup2
+pipe
+opendir
+readdir
+closedir
+strerror
+perror
+isatty
+ttyname
+ttyslot
+ioctl
+getenv
+tcsetattr
+tcgetattr
+tgetent
+tgetflag
+tgetnum
+tgetstr
+tgoto
+tputs
