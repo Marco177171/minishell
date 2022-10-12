@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_other_commands.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmeoli <gmeoli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 17:29:07 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/11 18:33:40 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/12 15:55:10 by gmeoli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	ft_child(t_command *command_struct, char **envp)
 	index = -1;
 	while (mypath[++index])
 		mypath[index] = ft_strjoin(mypath[index], "/");
-	index = -1;
-	while (mypath[++index])
+	index = 0;
+	while (mypath[index])
 	{
 		path = ft_strjoin(mypath[index], command_struct->word_matrix[0]);
 		if (access(path, R_OK) == 0)
@@ -44,8 +44,17 @@ void	ft_child(t_command *command_struct, char **envp)
 			ft_execute_sub_process(command_struct, envp);
 			break ;
 		}
+		else if (access(path, R_OK) != 0)
+		{
+			*g_exit_status = 127;
+			write(2, "minishell: ", 11);
+			write(2, command_struct->word_matrix[0], ft_strlen(command_struct->word_matrix[0]));
+			write(2, ": command not found\n", 20);
+			break ;
+		}
 		else
 			execve(command_struct->word_matrix[0], command_struct->word_matrix, envp);
+		index++;
 		free(path);
 	}
 	exit(1);
@@ -66,7 +75,9 @@ int	ft_other_commands(t_command *command_struct, char **envp)
 		if (status != 0)
 		{
 			*g_exit_status = 127;
-			printf("minishell: %s: command not found\n", command_struct->word_matrix[0]);
+			// write(2, "minishell: ", 11);
+			// write(2, command_struct->word_matrix[0], ft_strlen(command_struct->word_matrix[0]));
+			// write(2, ": command not found\n", 20);
 		}
 	}
 	return (1);
