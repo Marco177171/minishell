@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:11:31 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/11 17:20:54 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/12 17:16:03 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int		ft_count_pipes(char *str);
 int		ft_check_equal_presence(char *string);
 void	ft_remove_quotes(char *command);
 void	ft_manage_signals(void);
+int		ft_modify_var(char *new_couple, char **envp);
 
 // PIPES
 void	ft_manage_pipes(t_command *command_struct, char **envp);

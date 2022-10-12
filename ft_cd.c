@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 17:19:47 by gmeoli            #+#    #+#             */
-/*   Updated: 2022/09/22 16:13:55 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/12 16:40:24 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,27 +111,25 @@ int	ft_cd(t_command *command_struct)
 	char	path[PATH_MAX];
 	char	*ret;
 
+	*g_exit_status = 0;
 	getcwd(path, sizeof(path));
 	if (!command_struct->word_matrix[1])
 	{
 		ret = ft_go_home(path);
 		chdir(ret);
 		free(ret);
-		*g_exit_status = 0;
-		return (0);
+		return (*g_exit_status);
 	}
 	else if (ft_strcmp(command_struct->word_matrix[1], "..") == 0)
 	{
 		ret = ft_go_to_parent(path);
 		chdir(ret);
 		free(ret);
-		*g_exit_status = 0;
-		return (0);
+		return (*g_exit_status);
 	}
 	else
 	{
 		chdir(command_struct->word_matrix[1]);
-		*g_exit_status = 0;
-		return (0);
+		return (*g_exit_status);
 	}
 }
