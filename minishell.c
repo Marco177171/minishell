@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:12:49 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/13 18:32:49 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/13 19:36:55 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,29 +115,49 @@ void	ft_init_struct(t_command *command_struct)
 int	ft_check_syntax(char *command)
 {
 	int index;
-	
+	int flag;
+
 	index = 0;
+	flag = 0;
 	while (command[index])
 	{
 		if (command[index] == '|')
 		{
+			flag = 1;
 			index++;
-			while (command[index])
+			if (command[index] == '\0')
+				break ;
+			else
 			{
-				if (command[index] == '|')
+				while (command[index])
 				{
-					write(2, "minishell: syntax error near unexpected token `", 47);
-					write(2, &command[index], 1);
-					write(2, "'\n", 2);
-					return (1);
+					if (command[index] == '|')
+					{
+						write(2, "minishell: syntax error near unexpected token `", 47);
+						write(2, &command[index], 1);
+						write(2, "'\n", 2);
+						return (1);
+					}
+					else if (command[index] == ' ')
+						index++;
+					else if (command[index] != ' ' || command[index] != '|')
+					{
+						flag = 0;
+						break ;
+					}
+					else if (command[index] == '\0')
+						break ;
 				}
-				else if (command[index] == ' ')
-					index++;
-				else if (command[index] != ' ' || command[index] != '|')
-					break ;
 			}
 		}
 		index++;
+	}
+	if (flag == 1 && (command[index - 1] == '|' || command[index - 1] == ' '))
+	{
+		write(2, "minishell: syntax error near unexpected token `", 47);
+		write(2, &command[index - 1], 1);
+		write(2, "'\n", 2);
+		return (1);
 	}
 	return (0);
 }
