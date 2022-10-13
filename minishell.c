@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:12:49 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/13 17:18:15 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/13 18:25:49 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,47 @@ void	ft_init_struct(t_command *command_struct)
 	g_exit_status = malloc(sizeof(int) * 1);
 }
 
+int	ft_check_syntax(char *command)
+{
+	int index;
+	
+	index = 0;
+	while (command[index])
+	{
+		if (command[index] == '|')
+		{
+			index++;
+			while (command[index])
+			{
+				if (command[index] == '|')
+				{
+					write(2, "minishell: syntax error near unexpected token `", 47);
+					write(2, &command[index], 1);
+					write(2, "'\n", 2);
+					return (1);
+				}
+				else if (command[index] == ' ')
+					index++;
+				else if (command[index] != ' ' || command[index] != '|')
+					break ;
+			}
+		}
+		index++;
+	}
+	return (0);
+}
+
 void	ft_execute_cycle(t_command *command_struct, char **envp)
 {
 	command_struct->command_string = readline("minishell$ ");
 	if (command_struct->command_string[0] != '\0')
 	{
 		add_history(command_struct->command_string);
+		if (ft_check_syntax(command_struct->command_string) == 1)
+		{
+			free(command_struct->command_string);
+			return ;
+		}
 		command_struct->total_pipes = ft_count_pipes(command_struct->command_string);
 		command_struct->pipe_matrix = ft_split(command_struct->command_string, '|');
 		if (command_struct->total_pipes > 1)
