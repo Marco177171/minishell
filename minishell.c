@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:12:49 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/13 19:36:55 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/13 19:48:44 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,12 +145,11 @@ int	ft_check_syntax(char *command)
 						flag = 0;
 						break ;
 					}
-					else if (command[index] == '\0')
-						break ;
 				}
 			}
 		}
-		index++;
+		if (command[index] != '\0')
+			index++;
 	}
 	if (flag == 1 && (command[index - 1] == '|' || command[index - 1] == ' '))
 	{
