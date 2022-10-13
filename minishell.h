@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:11:31 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/12 17:16:03 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/13 17:18:21 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 int	*g_exit_status;
 
 typedef struct s_command {
+	char	*current_shell_level;
 	char	*command_string;
 	char	**pipe_matrix;
 	char	**word_matrix;

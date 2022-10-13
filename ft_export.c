@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 10:59:12 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/02 18:42:59 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/13 17:17:23 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,8 @@ int	ft_modify_var(char *new_couple, char **envp)
 	{
 		if (ft_strncmp(envp[index], couple[0], ft_strlen(couple[0])) == 0)
 		{
-			free(envp[index]);
-			envp[index] = malloc(sizeof(char) * ft_strlen(new_couple));
-			envp[index] = ft_strdup(new_couple);
+			ft_memcpy(envp[index], new_couple, ft_strlen(new_couple));
+			envp[index][ft_strlen(new_couple)] = '\0';
 			ft_free_matrix(couple);
 			return (1);
 		}

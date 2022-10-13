@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:12:49 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/10 15:10:26 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/13 17:18:15 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,11 @@ void	ft_remove_quotes(char *command)
 
 void	ft_init_struct(t_command *command_struct)
 {
+	char *value;
+
+	value = ft_itoa(ft_atoi(getenv("SHLVL")) + 1);
+	command_struct->current_shell_level = ft_strjoin("SHLVL=", value);
+	free(value);
 	command_struct->write_fd = 1;
 	command_struct->pipes[0] = 0;
 	command_struct->pipes[1] = 1;
@@ -139,6 +144,7 @@ int	main(int ac, char **av, char **envp)
 	if (ac == 1)
 	{
 		ft_init_struct(&command_struct);
+		ft_modify_var(command_struct.current_shell_level, envp);
 		while (TRUE)
 		{
 			ft_manage_signals();
