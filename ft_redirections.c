@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/14 19:43:50 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/14 19:54:35 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	ft_recognize_redirection(t_command *command_struct, int pipe_index, char **
 		if (ft_strncmp(command_struct->word_matrix[index], ">>\0", 3) == 0)
 		{
 			printf(">> found\n");
-			fd = open(command_struct->word_matrix[index + 1], O_APPEND|O_CREAT|O_RDONLY|O_WRONLY, 0777);
+			fd = open(command_struct->word_matrix[index + 1], O_APPEND|O_CREAT|O_WRONLY, 0777);
 			dup2(fd, STDOUT_FILENO);
 			ft_recognize_command(command_struct, pipe_index, envp);
-			// close(fd);
+			close(fd);
 			close(STDOUT_FILENO);
 			return ;
 		}
