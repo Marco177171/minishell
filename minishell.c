@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:12:49 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/14 16:18:01 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:31:52 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,13 +191,13 @@ void	ft_execute_cycle(t_command *command_struct, char **envp)
 				swap = ft_strjoin(command_struct->command_string, sub_readline);
 				free(command_struct->command_string);
 				command_struct->command_string = ft_strdup(swap);
+				free(swap);
+				free(sub_readline);
 				if (ft_check_syntax(command_struct->command_string) == 1)
 				{
 					free(command_struct->command_string);
 					return ;
 				}
-				free(swap);
-				free(sub_readline);
 			}
 		}
 		add_history(command_struct->command_string);
