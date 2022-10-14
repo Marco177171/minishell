@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:12:49 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/14 13:35:20 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:40:15 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,23 @@ void	ft_init_struct(t_command *command_struct)
 
 int	ft_check_syntax(char *command)
 {
-	int index;
-	int flag;
+	int	index;
+	int	flag;
 
 	index = 0;
 	flag = 0;
+	while (command[index] == ' ' || command[index] == '|')
+	{
+		if (command[index] == '|')
+		{
+			write(2, "minishell: syntax error near unexpected token `", 47);
+			write(2, &command[index], 1);
+			write(2, "'\n", 2);
+			return (1);
+		}
+		index++;
+	}
+	index = 0;
 	while (command[index])
 	{
 		if (command[index] == '|')
@@ -159,19 +171,22 @@ int	ft_check_syntax(char *command)
 void	ft_execute_cycle(t_command *command_struct, char **envp)
 {
 	char	*swap;
+	char	*sub_readline;
 	
+	swap = NULL;
+	sub_readline = NULL;
 	command_struct->command_string = readline("minishell$ ");
-	swap = ft_strdup(command_struct->command_string);
 	if (command_struct->command_string[0] != '\0')
 	{
 		while (ft_check_syntax(command_struct->command_string) == 2)
 		{
-			free(swap);
-			swap = ft_strjoin(command_struct->command_string, readline("> "));
+			sub_readline = readline("> ");
+			swap = ft_strjoin(command_struct->command_string, sub_readline);
 			free(command_struct->command_string);
 			command_struct->command_string = ft_strdup(swap);
+			free(swap);
+			free(sub_readline);
 		}
-		free(swap);
 		add_history(command_struct->command_string);
 		if (ft_check_syntax(command_struct->command_string) == 1)
 		{
@@ -193,10 +208,7 @@ void	ft_execute_cycle(t_command *command_struct, char **envp)
 		}
 	}
 	else
-	{
-		free(swap);
 		free(command_struct->command_string);
-	}
 }
 
 int	main(int ac, char **av, char **envp)
