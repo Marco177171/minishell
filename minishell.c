@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:12:49 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/14 15:40:15 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:18:01 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,21 +178,29 @@ void	ft_execute_cycle(t_command *command_struct, char **envp)
 	command_struct->command_string = readline("minishell$ ");
 	if (command_struct->command_string[0] != '\0')
 	{
-		while (ft_check_syntax(command_struct->command_string) == 2)
-		{
-			sub_readline = readline("> ");
-			swap = ft_strjoin(command_struct->command_string, sub_readline);
-			free(command_struct->command_string);
-			command_struct->command_string = ft_strdup(swap);
-			free(swap);
-			free(sub_readline);
-		}
-		add_history(command_struct->command_string);
 		if (ft_check_syntax(command_struct->command_string) == 1)
 		{
 			free(command_struct->command_string);
 			return ;
 		}
+		else if (ft_check_syntax(command_struct->command_string) == 2)
+		{
+			while (ft_check_syntax(command_struct->command_string) == 2)
+			{
+				sub_readline = readline("> ");
+				swap = ft_strjoin(command_struct->command_string, sub_readline);
+				free(command_struct->command_string);
+				command_struct->command_string = ft_strdup(swap);
+				if (ft_check_syntax(command_struct->command_string) == 1)
+				{
+					free(command_struct->command_string);
+					return ;
+				}
+				free(swap);
+				free(sub_readline);
+			}
+		}
+		add_history(command_struct->command_string);
 		command_struct->total_pipes = ft_count_pipes(command_struct->command_string);
 		command_struct->pipe_matrix = ft_split(command_struct->command_string, '|');
 		if (command_struct->total_pipes > 1)
