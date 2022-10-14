@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:12:49 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/14 12:32:23 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/14 13:35:20 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,11 +158,20 @@ int	ft_check_syntax(char *command)
 
 void	ft_execute_cycle(t_command *command_struct, char **envp)
 {
+	char	*swap;
+	
 	command_struct->command_string = readline("minishell$ ");
+	swap = ft_strdup(command_struct->command_string);
 	if (command_struct->command_string[0] != '\0')
 	{
 		while (ft_check_syntax(command_struct->command_string) == 2)
-			command_struct->command_string = ft_strjoin(command_struct->command_string, readline("> "));
+		{
+			free(swap);
+			swap = ft_strjoin(command_struct->command_string, readline("> "));
+			free(command_struct->command_string);
+			command_struct->command_string = ft_strdup(swap);
+		}
+		free(swap);
 		add_history(command_struct->command_string);
 		if (ft_check_syntax(command_struct->command_string) == 1)
 		{
@@ -184,7 +193,10 @@ void	ft_execute_cycle(t_command *command_struct, char **envp)
 		}
 	}
 	else
+	{
+		free(swap);
 		free(command_struct->command_string);
+	}
 }
 
 int	main(int ac, char **av, char **envp)
