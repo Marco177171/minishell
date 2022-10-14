@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:11:31 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/13 18:45:49 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/14 19:21:17 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ int		ft_modify_var(char *new_couple, char **envp);
 void	ft_manage_pipes(t_command *command_struct, char **envp);
 
 // REDIRECTIONS
-void	ft_redirect(char **word_matrix, char *current_output, int current_index, int fd);
+int		ft_check_redirection(char **word_struct);
+void	ft_redirect(t_command *command_struct, int index, char **envp);
 
 // ECHO
 int		ft_echo(t_command *command_struct, int pipe_index);
