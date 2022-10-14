@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:12:49 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/14 16:31:52 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:46:11 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ int	ft_check_syntax(char *command)
 			write(2, "minishell: syntax error near unexpected token `", 47);
 			write(2, &command[index], 1);
 			write(2, "'\n", 2);
+			*g_exit_status = 258;
 			return (1);
 		}
 		index++;
@@ -148,6 +149,7 @@ int	ft_check_syntax(char *command)
 						write(2, "minishell: syntax error near unexpected token `", 47);
 						write(2, &command[index], 1);
 						write(2, "'\n", 2);
+						*g_exit_status = 258;
 						return (1);
 					}
 					else if (command[index] == ' ')
