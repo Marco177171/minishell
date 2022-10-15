@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:12:49 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/14 18:19:14 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/15 18:53:08 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,8 +214,7 @@ void	ft_execute_cycle(t_command *command_struct, char **envp)
 			if (ft_check_redirection(command_struct->word_matrix) == 1)
 			{
 				printf("redirection detected: defining custom output...\n");
-				// call redirect
-				ft_recognize_command(command_struct, 0, envp);
+				ft_redirect(command_struct, 0, envp);
 				ft_free_matrix(command_struct->word_matrix);
 				ft_free_matrix(command_struct->pipe_matrix);
 				free(command_struct->command_string);

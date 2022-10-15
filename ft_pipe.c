@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 18:19:47 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/14 19:37:33 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/15 17:27:42 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,15 @@ void	ft_manage_pipes(t_command *command_struct, char **envp)
 	while (index < command_struct->total_pipes)
 	{
 		pipe(pipes);
-		pid[index] = fork();
 		command_struct->word_matrix = ft_split(command_struct->pipe_matrix[index], ' ');
 		ft_remove_quotes(command_struct->word_matrix[0]);
+		pid[index] = fork();
 		if (pid[index] == 0)
 		{
 			if (ft_check_redirection(command_struct->word_matrix) == 1)
 			{
 				close(pipes[0]);
 				ft_redirect(command_struct, index, envp);
-				// if (index == command_struct->total_pipes - 1)
-				// 	dup2(stdout_cpy, STDOUT_FILENO);
-				// else
-				// 	dup2(pipes[1], STDOUT_FILENO);
-				// ft_recognize_command(command_struct, index, envp);
 				exit(0);
 			}
 			else
