@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/15 19:21:39 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/16 16:46:09 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,40 +21,35 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 
 	index = 0;
 	stdoutcpy = dup(1);
-	// pid = fork();
-	// if (pid == 0)
-	// {
-		while (command_struct->word_matrix[index])
+	while (command_struct->word_matrix[index])
+	{
+		if (ft_strncmp(command_struct->word_matrix[index], ">>\0", 3) == 0 ||
+			ft_strncmp(command_struct->word_matrix[index], ">\0", 2) == 0)
 		{
 			if (ft_strncmp(command_struct->word_matrix[index], ">>\0", 3) == 0)
-			{
-				printf(">> found\n");
 				fd = open(command_struct->word_matrix[index + 1], O_APPEND|O_CREAT|O_WRONLY, 0777);
-				close(STDOUT_FILENO);
-				dup2(fd, STDOUT_FILENO);
-				ft_recognize_command(command_struct, pipe_index, envp);
-				dup2(stdoutcpy, STDOUT_FILENO);
-				// close(stdoutcpy);
-				close(fd);
-				// exit(0);
-			}
 			else if (ft_strncmp(command_struct->word_matrix[index], ">\0", 2) == 0)
-			{
-				printf("> found\n");
 				fd = open(command_struct->word_matrix[index + 1], O_CREAT|O_WRONLY, 0777);
-				dup2(fd, STDOUT_FILENO);
-				ft_recognize_command(command_struct, pipe_index, envp);
-				close(fd);
-				close(STDOUT_FILENO);
-				// exit(0);
-			}
-			else if (ft_strncmp(command_struct->word_matrix[index], "<<\0", 3) == 0)
-				printf("<< found \n");
-			else if (ft_strncmp(command_struct->word_matrix[index], "<\0", 2) == 0)
-				printf("< found \n");
-			index++;
+			close(STDOUT_FILENO);
+			dup2(fd, STDOUT_FILENO);
+			ft_recognize_command(command_struct, pipe_index, envp);
+			dup2(stdoutcpy, STDOUT_FILENO);
+			close(fd);
 		}
-	// }
-	// else
-	// 	waitpid(pid, 0, 0);
+		// else if (ft_strncmp(command_struct->word_matrix[index], ">\0", 2) == 0)
+		// {
+		// 	printf("> found\n");
+		// 	fd = open(command_struct->word_matrix[index + 1], O_CREAT|O_WRONLY, 0777);
+		// 	close(STDOUT_FILENO);
+		// 	dup2(fd, STDOUT_FILENO);
+		// 	ft_recognize_command(command_struct, pipe_index, envp);
+		// 	dup2(stdoutcpy, STDOUT_FILENO);
+		// 	close(fd);
+		// }
+		else if (ft_strncmp(command_struct->word_matrix[index], "<<\0", 3) == 0)
+			printf("<< found \n");
+		else if (ft_strncmp(command_struct->word_matrix[index], "<\0", 2) == 0)
+			printf("< found \n");
+		index++;
+	}
 }
