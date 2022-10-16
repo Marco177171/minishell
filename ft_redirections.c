@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/16 16:46:09 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/16 17:29:51 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 {
-	// int pid;
 	int	fd;
 	int	index;
 	int stdoutcpy;
