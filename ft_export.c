@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 10:59:12 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/13 17:17:23 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/17 15:17:46 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,10 @@ int	ft_export(t_command *command_struct, char **envp)
 
 	matrix_index = 1;
 	exit_flag = 0;
-	if (command_struct->word_matrix[1])
+	if (command_struct->word_matrix[1] && ft_strncmp(command_struct->word_matrix[1], ">>\0", 3) != 0 &&
+		ft_strncmp(command_struct->word_matrix[1], ">\0", 2) != 0 &&
+		ft_strncmp(command_struct->word_matrix[1], "<<\0", 3) != 0 &&
+		ft_strncmp(command_struct->word_matrix[1], "<\0", 2) != 0)
 	{
 		while (command_struct->word_matrix[matrix_index])
 		{
@@ -179,7 +182,9 @@ int	ft_export(t_command *command_struct, char **envp)
 			}
 			else
 			{
-				printf("minishell: export: \'%s\': not a valild identifier\n", command_struct->word_matrix[matrix_index]);
+				write(2, "minishell: export: '", 20);
+				write(2, command_struct->word_matrix[matrix_index], ft_strlen(command_struct->word_matrix[matrix_index]));
+				write(2, "': not a valild identifier\n", 27);
 				exit_flag = 1;
 				matrix_index++;
 			}

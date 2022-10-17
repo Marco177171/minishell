@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:22:55 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/15 18:48:35 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/17 15:11:59 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ int	ft_echo(t_command *command_struct, int pipe_index)
 				index += ft_print_double_quote(command_struct->pipe_matrix[pipe_index] + index, command_struct->write_fd);
 			else if (command_struct->pipe_matrix[pipe_index][index] == '$')
 				index += (ft_print_dollar(command_struct->pipe_matrix[pipe_index] + index, command_struct->write_fd));
+			else if (command_struct->pipe_matrix[pipe_index][index] == '>' || command_struct->pipe_matrix[pipe_index][index] == '<')
+				break ;
 			else
 			{
 				write(command_struct->write_fd, &command_struct->pipe_matrix[pipe_index][index], 1);
@@ -147,7 +149,7 @@ int	ft_echo(t_command *command_struct, int pipe_index)
 	}
 	else
 	{
-		printf("error: close your quotes\n");
+		write(2, "error: close your quotes\n", 25);
 		return (1);
 	}
 }
