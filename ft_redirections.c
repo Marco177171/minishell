@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/16 18:46:15 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/17 15:47:18 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,17 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 			ft_strncmp(command_struct->word_matrix[index], ">\0", 2) == 0)
 		{
 			if (ft_strncmp(command_struct->word_matrix[index], ">>\0", 3) == 0)
+			{
 				fd = open(command_struct->word_matrix[index + 1], O_APPEND|O_CREAT|O_WRONLY, 0644);
+				command_struct->word_matrix[index] = NULL;
+				command_struct->word_matrix[index + 1] = NULL;
+			}
 			else if (ft_strncmp(command_struct->word_matrix[index], ">\0", 2) == 0)
+			{
 				fd = open(command_struct->word_matrix[index + 1], O_TRUNC|O_CREAT|O_WRONLY, 0644);
+				command_struct->word_matrix[index] = NULL;
+				command_struct->word_matrix[index + 1] = NULL;
+			}
 			close(STDOUT_FILENO);
 			dup2(fd, STDOUT_FILENO);
 			ft_recognize_command(command_struct, pipe_index, envp);
