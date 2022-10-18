@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/18 17:04:59 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/18 18:48:56 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,20 +103,49 @@ char	*ft_update_pipe_text(char *pipe)
 
 void	ft_redirect_and_execute(t_command *command_struct, int pipe_index, char **envp, int fd, int stdoutcpy)
 {
+	command_struct->pipe_matrix[pipe_index] = ft_update_pipe_text(command_struct->pipe_matrix[pipe_index]);
+	command_struct->word_matrix = ft_decrease_word_matrix(command_struct->word_matrix);
 	close(STDOUT_FILENO);
-	write(1,"stacippa\n",10);
 	dup2(fd, STDOUT_FILENO);
 	ft_recognize_command(command_struct, pipe_index, envp);
 	dup2(stdoutcpy, STDOUT_FILENO);
 	close(fd);
 }
 
+void	ft_append(t_command *command_struct, int pipe_index, char **envp, int stdoutcpy, int index, int fd)
+{
+	if (command_struct->word_matrix[index + 1] == NULL)
+	{
+		ft_unexpected_token();
+		return ;
+	}
+	fd = open(command_struct->word_matrix[index + 1], O_APPEND|O_CREAT|O_WRONLY, 0644);
+	ft_redirect_and_execute(command_struct, pipe_index, envp, fd, stdoutcpy);
+}
+
+void	ft_trunc(t_command *command_struct, int pipe_index, char **envp, int stdoutcpy, int index, int fd)
+{
+	if (command_struct->word_matrix[index + 1] == NULL)
+	{
+		ft_unexpected_token();
+		return ;
+	}
+	fd = open(command_struct->word_matrix[index + 1], O_TRUNC|O_CREAT|O_WRONLY, 0644);
+	ft_redirect_and_execute(command_struct, pipe_index, envp, fd, stdoutcpy);
+}
+
 void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 {
-	int	fd;
-	int	index;
-	int stdoutcpy;
+	int		fd;
+	int		index;
+	int		check_index;
+	int		stdoutcpy;
+	char	*end_word;
+	char	*swap;
+	char	*swap_and_space;
+	char	*sub_readline;
 
+	fd = 0;
 	index = 0;
 	stdoutcpy = dup(1);
 	while (command_struct->word_matrix[index])
@@ -126,41 +155,55 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 		{
 			if (ft_strcmp(command_struct->word_matrix[index], ">>") == 0)
 			{
-				if (command_struct->word_matrix[index + 1] == NULL)
-				{
-					ft_unexpected_token();
-					break ;
-				}
-				fd = open(command_struct->word_matrix[index + 1], O_APPEND|O_CREAT|O_WRONLY, 0644);
-				command_struct->pipe_matrix[pipe_index] = ft_update_pipe_text(command_struct->pipe_matrix[pipe_index]);
-				command_struct->word_matrix = ft_decrease_word_matrix(command_struct->word_matrix);
-				ft_redirect_and_execute(command_struct, pipe_index, envp, fd, stdoutcpy);
+				ft_append(command_struct, pipe_index, envp, stdoutcpy, index, fd);
 				break ;
 			}
 			else if (ft_strcmp(command_struct->word_matrix[index], ">") == 0)
 			{
-				if (command_struct->word_matrix[index + 1] == NULL)
-				{
-					ft_unexpected_token();
-					break ;
-				}
-				fd = open(command_struct->word_matrix[index + 1], O_TRUNC|O_CREAT|O_WRONLY, 0644);
-				command_struct->pipe_matrix[pipe_index] = ft_update_pipe_text(command_struct->pipe_matrix[pipe_index]);
-				command_struct->word_matrix = ft_decrease_word_matrix(command_struct->word_matrix);
-				ft_redirect_and_execute(command_struct, pipe_index, envp, fd, stdoutcpy);
+				ft_trunc(command_struct, pipe_index, envp, stdoutcpy, index, fd);
 				break ;
 			}
 		}
-		else if (ft_strcmp(command_struct->word_matrix[index], "<<") == 0)
+		else if (ft_strcmp(command_struct->word_matrix[index], "<<") == 0 ||
+			ft_strcmp(command_struct->word_matrix[index], "<") == 0)
 		{
-			// heredoc
-			// ft_heredoc(command_struct, pipe_index, envp);
-			printf("<< found \n");
-		}
-		else if (ft_strcmp(command_struct->word_matrix[index], "<") == 0)
-		{
-			// redirect input
-			printf("< found \n");
+			if (ft_strcmp(command_struct->word_matrix[index], "<<") == 0)
+			{
+				index++;
+				if (command_struct->word_matrix[index] == NULL)
+					ft_unexpected_token();
+				end_word = strdup(command_struct->word_matrix[index]);
+				printf("end with %s\n", end_word);
+				while (1)
+				{
+					swap = ft_strdup(command_struct->pipe_matrix[pipe_index]);
+					swap_and_space = ft_strjoin(swap, " ");
+					sub_readline = readline("> ");
+					free(command_struct->pipe_matrix[pipe_index]);
+					command_struct->pipe_matrix[pipe_index] = ft_strjoin(swap_and_space, sub_readline);
+					free(swap);
+					free(swap_and_space);
+					free(sub_readline);
+					ft_free_matrix(command_struct->word_matrix);
+					command_struct->word_matrix = ft_split(command_struct->pipe_matrix[pipe_index], ' ');
+					check_index = 0;
+					while (command_struct->word_matrix[check_index + 1] != NULL)
+						check_index++;
+					if (ft_strcmp(command_struct->word_matrix[check_index], end_word) == 0)
+					{
+						ft_recognize_command(command_struct, pipe_index, envp);
+						break ;
+					}
+				}
+				free(end_word);
+				return ;
+			}
+			else if (ft_strcmp(command_struct->word_matrix[index], "<") == 0)
+			{
+				// redirect input
+				printf("< found \n");
+				break ;
+			}
 		}
 		if (command_struct->word_matrix[index + 1] != NULL)
 			index++;
