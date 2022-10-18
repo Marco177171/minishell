@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:11:31 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/18 15:39:49 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/18 16:27:12 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	ft_error(void);
 void	ft_syntax_error(char c);
 void	ft_command_not_found(char *str);
 void 	ft_arg_not_found(char *str);
+void	ft_unexpected_token(void);
 
 // UTILITY
 int		ft_check_quotes(char *str);

@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:28:51 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/18 15:39:26 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/18 16:28:12 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,11 @@ void	ft_syntax_error(char c)
 	write(2, "minishell: syntax error near unexpected token `", 47);
 	write(2, &c, 1);
 	write(2, "'\n", 2);
+	*g_exit_status = 258;
+}
+
+void	ft_unexpected_token(void)
+{
+	write(2, "minishell: syntax error near unexpected token `newline'\n", 56);
 	*g_exit_status = 258;
 }
