@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:11:31 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/14 19:21:17 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/18 15:39:49 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,16 @@ typedef struct s_command {
 	int		pipes[2];
 	int		write_fd;
 	int		read_fd;
-	// char	*redirections;
-	// char	*output_file;
 	char	*operator;
 }	t_command;
 
-// UTILITY
+// ERRORS
 void	ft_error(void);
+void	ft_syntax_error(char c);
+void	ft_command_not_found(char *str);
+void 	ft_arg_not_found(char *str);
+
+// UTILITY
 int		ft_check_quotes(char *str);
 void	ft_split_pipes(t_command *command_struct);
 void	ft_free_matrix(char **m);

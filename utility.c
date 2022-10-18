@@ -6,17 +6,11 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 13:46:29 by gmeoli            #+#    #+#             */
-/*   Updated: 2022/10/03 17:10:55 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/18 15:38:07 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_error(void)
-{
-	printf("error\n");
-	exit(0);
-}
 
 int	ft_count_pipes(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 17:29:07 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/13 16:18:31 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/18 15:33:22 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ int	ft_execute_sub_process(t_command *command_struct, char **envp)
 {
 	if (execve(command_struct->word_matrix[0], command_struct->word_matrix, envp) != 0)
 	{
-		write(2, "minishell: ", 11);
-		write(2, command_struct->word_matrix[0], ft_strlen(command_struct->word_matrix[0]));
-		write(2, ": No such file or directory\n", 28);
+		ft_arg_not_found(command_struct->word_matrix[0]);
 		return (1);
 	}
 	return (0);
@@ -52,11 +50,7 @@ void	ft_child(t_command *command_struct, char **envp)
 		free(path);
 	}
 	if (*g_exit_status != 0)
-	{
-		write(2, "minishell: ", 11);
-		write(2, command_struct->word_matrix[0], ft_strlen(command_struct->word_matrix[0]));
-		write(2, ": command not found\n", 20);
-	}
+		ft_command_not_found(command_struct->word_matrix[0]);
 	exit(*g_exit_status);
 }
 

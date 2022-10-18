@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 18:08:12 by masebast          #+#    #+#             */
-/*   Updated: 2022/09/22 16:14:28 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/18 15:36:11 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_pwd(void)
 	}
 	else
 	{
-		write(1, "pwd error\n", 10);
+		write(2, "pwd error\n", 10);
 		*g_exit_status = 1;
 		return (1);
 	}

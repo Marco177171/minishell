@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:50:36 by masebast          #+#    #+#             */
-/*   Updated: 2022/09/23 15:23:57 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/18 15:54:33 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,21 @@ void    ft_print_exit(void)
 	free(status);
 }
 
+void	ft_check_quote2(char *str, int index, int flag)
+{
+	flag *= -1;
+	index++;
+	while (str[index])
+	{
+		if (str[index] == '"')
+		{
+			flag *= -1;
+			break ;
+		}
+		index++;
+	}
+}
+
 int	ft_check_quote(char *str)
 {
 	int	index;
@@ -79,17 +94,18 @@ int	ft_check_quote(char *str)
 		}
 		else if (str[index] == '"')
 		{
-			flag *= -1;
-			index++;
-			while (str[index])
-			{
-				if (str[index] == '"')
-				{
-					flag *= -1;
-					break ;
-				}
-				index++;
-			}
+			// ft_check_quote2(str, &index, &flag);
+			// flag *= -1;
+			// index++;
+			// while (str[index])
+			// {
+			// 	if (str[index] == '"')
+			// 	{
+			// 		flag *= -1;
+			// 		break ;
+			// 	}
+			// 	index++;
+			// }
 		}
 		index++;
 	}
