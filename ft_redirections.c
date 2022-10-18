@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirections.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmeoli <gmeoli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/18 19:03:42 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/18 19:46:46 by gmeoli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// void	ft_heredoc(t_command *command_struct, int pipe_index, char **envp)
-// {
-// 	int	stdincpy;
-	
-// 	stdincpy = dup(0);
-// }
 
 char	**ft_decrease_word_matrix(char **word_matrix)
 {
@@ -134,19 +127,27 @@ void	ft_trunc(t_command *command_struct, int pipe_index, char **envp, int stdout
 	ft_redirect_and_execute(command_struct, pipe_index, envp, fd, stdoutcpy);
 }
 
+// void	ft_heredoc(t_command *command_struct, int pipe_index, char **envp, int stdincpy, int index, int fd)
+// {
+// }
+
 void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 {
-	int		fd;
+	int		fd_out;
 	int		index;
-	int		check_index;
 	int		stdoutcpy;
-	char	*end_word;
-	char	*swap;
-	char	*swap_and_space;
-	char	*sub_readline;
-
-	fd = 0;
+	int		stdincpy;
+	int		fd_in;
+	// int		check_index;
+	// char	*end_word;
+	// char	*swap;
+	// char	*swap_and_space;
+	// char	*sub_readline;
+	
+	fd_out = 0;
+	fd_in = 0;
 	index = 0;
+	stdincpy = dup(0);
 	stdoutcpy = dup(1);
 	while (command_struct->word_matrix[index])
 	{
@@ -155,12 +156,12 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 		{
 			if (ft_strcmp(command_struct->word_matrix[index], ">>") == 0)
 			{
-				ft_append(command_struct, pipe_index, envp, stdoutcpy, index, fd);
+				ft_append(command_struct, pipe_index, envp, stdoutcpy, index, fd_out);
 				break ;
 			}
 			else if (ft_strcmp(command_struct->word_matrix[index], ">") == 0)
 			{
-				ft_trunc(command_struct, pipe_index, envp, stdoutcpy, index, fd);
+				ft_trunc(command_struct, pipe_index, envp, stdoutcpy, index, fd_out);
 				break ;
 			}
 		}
@@ -169,42 +170,50 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 		{
 			if (ft_strcmp(command_struct->word_matrix[index], "<<") == 0)
 			{
-				index++;
-				if (command_struct->word_matrix[index] == NULL)
+				// ft_heredoc(command_struct, pipe_index, envp, stdincpy, index, fd_in);
+				if (command_struct->word_matrix[index + 1] == NULL)
 				{
 					ft_unexpected_token();
 					return ;
 				}
-				end_word = strdup(command_struct->word_matrix[index]);
-				while (1)
-				{
-					swap = ft_strdup(command_struct->pipe_matrix[pipe_index]);
-					swap_and_space = ft_strjoin(swap, " ");
-					sub_readline = readline("> ");
-					free(command_struct->pipe_matrix[pipe_index]);
-					command_struct->pipe_matrix[pipe_index] = ft_strjoin(swap_and_space, sub_readline);
-					free(swap);
-					free(swap_and_space);
-					free(sub_readline);
-					ft_free_matrix(command_struct->word_matrix);
-					command_struct->word_matrix = ft_split(command_struct->pipe_matrix[pipe_index], ' ');
-					check_index = 0;
-					while (command_struct->word_matrix[check_index + 1] != NULL)
-						check_index++;
-					if (ft_strcmp(command_struct->word_matrix[check_index], end_word) == 0)
-					{
-						ft_recognize_command(command_struct, pipe_index, envp);
-						break ;
-					}
-				}
-				free(end_word);
-				return ;
+				// index++;
+				// if (command_struct->word_matrix[index] == NULL)
+				// {
+				// 	ft_unexpected_token();
+				// 	return ;
+				// }
+				// end_word = strdup(command_struct->word_matrix[index]);
+				// while (1)
+				// {
+				// 	swap = ft_strdup(command_struct->pipe_matrix[pipe_index]);
+				// 	swap_and_space = ft_strjoin(swap, " ");
+				// 	sub_readline = readline("> ");
+				// 	free(command_struct->pipe_matrix[pipe_index]);
+				// 	command_struct->pipe_matrix[pipe_index] = ft_strjoin(swap_and_space, sub_readline);
+				// 	free(swap);
+				// 	free(swap_and_space);
+				// 	free(sub_readline);
+				// 	ft_free_matrix(command_struct->word_matrix);
+				// 	command_struct->word_matrix = ft_split(command_struct->pipe_matrix[pipe_index], ' ');
+				// 	check_index = 0;
+				// 	while (command_struct->word_matrix[check_index + 1] != NULL)
+				// 		check_index++;
+				// 	if (ft_strcmp(command_struct->word_matrix[check_index], end_word) == 0)
+				// 	{
+				// 		ft_recognize_command(command_struct, pipe_index, envp);
+				// 		break ;
+				// 	}
+				// }
+				// free(end_word);
+				// return ;
 			}
 			else if (ft_strcmp(command_struct->word_matrix[index], "<") == 0)
 			{
-				// redirect input
-				printf("< found \n");
-				break ;
+				if (command_struct->word_matrix[index + 1] == NULL)
+				{
+					ft_unexpected_token();
+					return ;
+				}
 			}
 		}
 		if (command_struct->word_matrix[index + 1] != NULL)
