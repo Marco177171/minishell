@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: masebast <masebast@student.42.fr>          +#+  +:+       +#+         #
+#    By: gmeoli <gmeoli@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/01 17:02:28 by masebast          #+#    #+#              #
-#    Updated: 2022/10/10 15:53:57 by masebast         ###   ########.fr        #
+#    Updated: 2022/10/18 11:42:56 by gmeoli           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,4 +27,6 @@ fclean:	clean
 
 all: 	$(NAME)
 
+vai: re
+	@./$(NAME)
 re:		fclean all
