@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/18 18:48:56 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/18 19:03:42 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,9 +171,11 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 			{
 				index++;
 				if (command_struct->word_matrix[index] == NULL)
+				{
 					ft_unexpected_token();
+					return ;
+				}
 				end_word = strdup(command_struct->word_matrix[index]);
-				printf("end with %s\n", end_word);
 				while (1)
 				{
 					swap = ft_strdup(command_struct->pipe_matrix[pipe_index]);
