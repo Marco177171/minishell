@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirections.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmeoli <gmeoli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/18 14:18:41 by gmeoli           ###   ########.fr       */
+/*   Updated: 2022/10/18 15:01:12 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,16 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 	stdoutcpy = dup(1);
 	while (command_struct->word_matrix[index])
 	{
-		if (ft_strncmp(command_struct->word_matrix[index], ">>\0", 3) == 0 ||
-			ft_strncmp(command_struct->word_matrix[index], ">\0", 2) == 0)
+		if (ft_strcmp(command_struct->word_matrix[index], ">>") == 0 ||
+			ft_strcmp(command_struct->word_matrix[index], ">") == 0)
 		{
-			if (ft_strncmp(command_struct->word_matrix[index], ">>\0", 3) == 0)
+			if (ft_strcmp(command_struct->word_matrix[index], ">>") == 0)
 			{
 				fd = open(command_struct->word_matrix[index + 1], O_APPEND|O_CREAT|O_WRONLY, 0644);
-				// ft_decrease_word_matrix(command_struct->word_matrix);
-				// index++;
+				command_struct->word_matrix = ft_decrease_word_matrix(command_struct->word_matrix);
+				index++;
 			}
-			else if (ft_strncmp(command_struct->word_matrix[index], ">\0", 2) == 0)
+			else if (ft_strcmp(command_struct->word_matrix[index], ">") == 0)
 			{
 				fd = open(command_struct->word_matrix[index + 1], O_TRUNC|O_CREAT|O_WRONLY, 0644);
 				command_struct->word_matrix = ft_decrease_word_matrix(command_struct->word_matrix);
@@ -85,13 +85,13 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 			dup2(stdoutcpy, STDOUT_FILENO);
 			close(fd);
 		}
-		else if (ft_strncmp(command_struct->word_matrix[index], "<<\0", 3) == 0)
+		else if (ft_strcmp(command_struct->word_matrix[index], "<<") == 0)
 		{
 			// heredoc
 			// ft_heredoc(command_struct, pipe_index, envp);
 			printf("<< found \n");
 		}
-		else if (ft_strncmp(command_struct->word_matrix[index], "<\0", 2) == 0)
+		else if (ft_strcmp(command_struct->word_matrix[index], "<") == 0)
 		{
 			// redirect input
 			printf("< found \n");
