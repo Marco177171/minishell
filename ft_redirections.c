@@ -6,7 +6,7 @@
 /*   By: gmeoli <gmeoli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/18 19:46:46 by gmeoli           ###   ########.fr       */
+/*   Updated: 2022/10/18 20:14:11 by gmeoli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,34 @@ void	ft_trunc(t_command *command_struct, int pipe_index, char **envp, int stdout
 	ft_redirect_and_execute(command_struct, pipe_index, envp, fd, stdoutcpy);
 }
 
-// void	ft_heredoc(t_command *command_struct, int pipe_index, char **envp, int stdincpy, int index, int fd)
-// {
-// }
+void	ft_heredoc(t_command *command_struct, int pipe_index, char **envp, int stdincpy, int index, int fd)
+{
+	(void)pipe_index;
+	envp = NULL;
+	(void)stdincpy;
+	(void)fd;
+	if (command_struct->word_matrix[index + 1] == NULL)
+	{
+		ft_unexpected_token();
+		return ;
+	}
+}
+
+void	ft_guido(t_command *command_struct, int pipe_index, char **envp, int stdincpy, int index, int fd)
+{
+	if (command_struct->word_matrix[index + 1] == NULL)
+	{
+		ft_unexpected_token();
+		return ;
+	}
+	fd = open(command_struct->word_matrix[index + 1], O_WRONLY, 0644);
+	if (!fd)
+		{
+			ft_arg_not_found(command_struct->word_matrix[index]);
+			*g_exit_status = 1;
+		}
+	ft_redirect_and_execute(command_struct, pipe_index, envp, fd, stdincpy);
+}
 
 void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 {
@@ -170,12 +195,7 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 		{
 			if (ft_strcmp(command_struct->word_matrix[index], "<<") == 0)
 			{
-				// ft_heredoc(command_struct, pipe_index, envp, stdincpy, index, fd_in);
-				if (command_struct->word_matrix[index + 1] == NULL)
-				{
-					ft_unexpected_token();
-					return ;
-				}
+				ft_heredoc(command_struct, pipe_index, envp, stdincpy, index, fd_in);
 				// index++;
 				// if (command_struct->word_matrix[index] == NULL)
 				// {
@@ -209,11 +229,8 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 			}
 			else if (ft_strcmp(command_struct->word_matrix[index], "<") == 0)
 			{
-				if (command_struct->word_matrix[index + 1] == NULL)
-				{
-					ft_unexpected_token();
-					return ;
-				}
+				ft_guido(command_struct, pipe_index, envp, stdincpy, index, fd_in);
+				break ;
 			}
 		}
 		if (command_struct->word_matrix[index + 1] != NULL)
