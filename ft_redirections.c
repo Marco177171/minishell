@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/19 15:53:44 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/19 18:12:37 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,20 +140,24 @@ void	ft_heredoc(t_command *command_struct, int pipe_index, char **envp, int stdi
 	}
 }
 
-void	ft_guido(t_command *command_struct, int pipe_index, char **envp, int stdincpy, int index, int fd)
+void	ft_input_redirect(t_command *command_struct, int pipe_index, char **envp, int stdincpy, int index, int fd)
 {
 	if (command_struct->word_matrix[index + 1] == NULL)
 	{
 		ft_unexpected_token();
 		return ;
 	}
-	fd = open(command_struct->word_matrix[index + 1], O_WRONLY, 0644);
+	fd = open(command_struct->word_matrix[index + 1], O_RDWR, 0644);
 	if (!fd)
 	{
 		ft_arg_not_found(command_struct->word_matrix[index]);
 		*g_exit_status = 1;
 	}
-	ft_redirect_and_execute(command_struct, pipe_index, envp, fd, stdincpy);
+	close(STDIN_FILENO);
+	dup2(fd, STDIN_FILENO);
+	ft_recognize_command(command_struct, pipe_index, envp);
+	dup2(stdincpy, STDIN_FILENO);
+	close(fd);
 }
 
 void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
@@ -229,7 +233,7 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 			}
 			else if (ft_strcmp(command_struct->word_matrix[index], "<") == 0)
 			{
-				ft_guido(command_struct, pipe_index, envp, stdincpy, index, fd_in);
+				ft_input_redirect(command_struct, pipe_index, envp, stdincpy, index, fd_in);
 				break ;
 			}
 		}
