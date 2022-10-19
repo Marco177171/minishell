@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:22:55 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/19 16:03:50 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/19 17:46:26 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_print_dollar(char *str, int fd)
 	return (index);
 }
 
-void ft_adjust_pipe(char *pipe)
+char	*ft_adjust_pipe(char *pipe)
 {
 	int index;
 	int result_index;
@@ -58,7 +58,7 @@ void ft_adjust_pipe(char *pipe)
 	result_index = 0;
 	while (pipe[index])
 		index++;
-	new_pipe = malloc (sizeof(char) * result_index);
+	new_pipe = malloc (sizeof(char) * index);
 	index = 0;
 	while (pipe[index])
 	{
@@ -88,15 +88,7 @@ void ft_adjust_pipe(char *pipe)
 	}
 	new_pipe[result_index] = '\0';
 	free(pipe);
-	pipe = malloc(sizeof(char) * result_index + 1);
-	result_index = 0;
-	while (new_pipe[result_index])
-	{
-		pipe[result_index] = new_pipe[result_index];
-		result_index++;
-	}
-	pipe[result_index] = '\0';
-	free(new_pipe);
+	return(new_pipe);
 }
 
 int	ft_echo(t_command *command_struct, int pipe_index)
@@ -106,7 +98,7 @@ int	ft_echo(t_command *command_struct, int pipe_index)
 
 	index = 0;
 	flag = 0;
-	ft_adjust_pipe(command_struct->pipe_matrix[pipe_index]);
+	command_struct->pipe_matrix[pipe_index] = ft_adjust_pipe(command_struct->pipe_matrix[pipe_index]);
  	if (ft_check_quote(command_struct->pipe_matrix[pipe_index]) == 1)
 	{
 		while (command_struct->pipe_matrix[pipe_index][index] == ' ')
