@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/19 19:02:00 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/19 19:05:16 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,36 +237,7 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 			if (ft_strcmp(command_struct->word_matrix[index], "<<") == 0)
 			{
 				ft_heredoc(command_struct, pipe_index, envp, stdincpy, index, fd_in);
-				// index++;
-				// if (command_struct->word_matrix[index] == NULL)
-				// {
-				// 	ft_unexpected_token();
-				// 	return ;
-				// }
-				// end_word = strdup(command_struct->word_matrix[index]);
-				// while (1)
-				// {
-				// 	swap = ft_strdup(command_struct->pipe_matrix[pipe_index]);
-				// 	swap_and_space = ft_strjoin(swap, " ");
-				// 	sub_readline = readline("> ");
-				// 	free(command_struct->pipe_matrix[pipe_index]);
-				// 	command_struct->pipe_matrix[pipe_index] = ft_strjoin(swap_and_space, sub_readline);
-				// 	free(swap);
-				// 	free(swap_and_space);
-				// 	free(sub_readline);
-				// 	ft_free_matrix(command_struct->word_matrix);
-				// 	command_struct->word_matrix = ft_split(command_struct->pipe_matrix[pipe_index], ' ');
-				// 	check_index = 0;
-				// 	while (command_struct->word_matrix[check_index + 1] != NULL)
-				// 		check_index++;
-				// 	if (ft_strcmp(command_struct->word_matrix[check_index], end_word) == 0)
-				// 	{
-				// 		ft_recognize_command(command_struct, pipe_index, envp);
-				// 		break ;
-				// 	}
-				// }
-				// free(end_word);
-				// return ;
+				break ;
 			}
 			else if (ft_strcmp(command_struct->word_matrix[index], "<") == 0)
 			{
