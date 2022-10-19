@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/19 18:12:37 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/19 18:18:54 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ char	**ft_decrease_word_matrix(char **word_matrix)
 	while (word_matrix[index])
 	{
 		if (ft_strncmp(word_matrix[index], ">>\0", 3) == 0 ||
-			ft_strncmp(word_matrix[index], ">\0", 2) == 0)
+			ft_strncmp(word_matrix[index], ">\0", 2) == 0 ||
+			ft_strncmp(word_matrix[index], "<<\0", 2) == 0 ||
+			ft_strncmp(word_matrix[index], "<\0", 2) == 0)
 			index += 2;
 		else
 		{
@@ -153,6 +155,7 @@ void	ft_input_redirect(t_command *command_struct, int pipe_index, char **envp, i
 		ft_arg_not_found(command_struct->word_matrix[index]);
 		*g_exit_status = 1;
 	}
+	command_struct->word_matrix = ft_decrease_word_matrix(command_struct->word_matrix);
 	close(STDIN_FILENO);
 	dup2(fd, STDIN_FILENO);
 	ft_recognize_command(command_struct, pipe_index, envp);
