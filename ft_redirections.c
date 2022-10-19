@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirections.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmeoli <gmeoli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/18 20:14:11 by gmeoli           ###   ########.fr       */
+/*   Updated: 2022/10/19 15:53:44 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,10 +149,10 @@ void	ft_guido(t_command *command_struct, int pipe_index, char **envp, int stdinc
 	}
 	fd = open(command_struct->word_matrix[index + 1], O_WRONLY, 0644);
 	if (!fd)
-		{
-			ft_arg_not_found(command_struct->word_matrix[index]);
-			*g_exit_status = 1;
-		}
+	{
+		ft_arg_not_found(command_struct->word_matrix[index]);
+		*g_exit_status = 1;
+	}
 	ft_redirect_and_execute(command_struct, pipe_index, envp, fd, stdincpy);
 }
 
