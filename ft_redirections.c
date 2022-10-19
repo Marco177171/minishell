@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/19 18:18:54 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/19 19:02:00 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,13 +131,47 @@ void	ft_trunc(t_command *command_struct, int pipe_index, char **envp, int stdout
 
 void	ft_heredoc(t_command *command_struct, int pipe_index, char **envp, int stdincpy, int index, int fd)
 {
-	(void)pipe_index;
-	envp = NULL;
-	(void)stdincpy;
-	(void)fd;
+	char	*interrupter;
+	char	*swap;
+	char	*swap_and_space;
+	char	*sub_readline;
+	int		check_index;
+	// (void)pipe_index;
+	// envp = NULL;
+	// (void)stdincpy;
+	// (void)fd;
+	fd = 0;
+	stdincpy = 0;
 	if (command_struct->word_matrix[index + 1] == NULL)
 	{
 		ft_unexpected_token();
+		return ;
+	}
+	else
+	{
+		interrupter = strdup(command_struct->word_matrix[index + 1]);
+		while (1)
+		{
+			swap = ft_strdup(command_struct->pipe_matrix[pipe_index]);
+			swap_and_space = ft_strjoin(swap, " ");
+			sub_readline = readline("> ");
+			free(command_struct->pipe_matrix[pipe_index]);
+			command_struct->pipe_matrix[pipe_index] = ft_strjoin(swap_and_space, sub_readline);
+			free(swap);
+			free(swap_and_space);
+			free(sub_readline);
+			ft_free_matrix(command_struct->word_matrix);
+			command_struct->word_matrix = ft_split(command_struct->pipe_matrix[pipe_index], ' ');
+			check_index = 0;
+			while (command_struct->word_matrix[check_index + 1] != NULL)
+				check_index++;
+			if (ft_strcmp(command_struct->word_matrix[check_index], interrupter) == 0)
+			{
+				ft_recognize_command(command_struct, pipe_index, envp);
+				break ;
+			}
+		}
+		free(interrupter);
 		return ;
 	}
 }
