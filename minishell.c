@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:12:49 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/19 17:34:00 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/21 15:09:36 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	ft_remove_quotes(char *command)
 		index = 0;
 		while (command[index])
 		{
-			if (command[index] == '\"')
+			if (command[index] == '"')
 			{
 				index++;
-				while (command[index] != '\"')
+				while (command[index] != '"')
 				{
 					result[res_index] = command[index];
 					res_index++;
@@ -198,7 +198,7 @@ void	ft_execute_cycle(t_command *command_struct, char **envp)
 		}
 		add_history(command_struct->command_string);
 		command_struct->total_pipes = ft_count_pipes(command_struct->command_string);
-		command_struct->pipe_matrix = ft_split(command_struct->command_string, '|');
+		command_struct->pipe_matrix = ft_split_pipes(command_struct->command_string, '|');
 		if (command_struct->total_pipes > 1)
 			ft_manage_pipes(command_struct, envp);
 		else

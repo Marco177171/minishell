@@ -93,20 +93,20 @@ int	ft_check_quote(char *str)
 				index++;
 			}
 		}
-		else if (str[index] == '"')
+		else if (str[index] == '\"')
 		{
 			// flag = ft_check_quote2(str, &index, &flag);
-			// flag *= -1;
-			// index++;
-			// while (str[index])
-			// {
-			// 	if (str[index] == '"')
-			// 	{
-			// 		flag *= -1;
-			// 		break ;
-			// 	}
-			// 	index++;
-			// }
+			flag *= -1;
+			index++;
+			while (str[index])
+			{
+				if (str[index] == '\"')
+				{
+					flag *= -1;
+					break ;
+				}
+				index++;
+			}
 		}
 		index++;
 	}

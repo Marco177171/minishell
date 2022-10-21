@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:11:31 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/18 16:27:12 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/21 13:55:05 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	ft_unexpected_token(void);
 
 // UTILITY
 int		ft_check_quotes(char *str);
-void	ft_split_pipes(t_command *command_struct);
 void	ft_free_matrix(char **m);
 int		ft_parsing(char *input, t_command *command_struct);
 int		ft_pipe_total(char *input);
@@ -62,6 +61,7 @@ int		ft_modify_var(char *new_couple, char **envp);
 
 // PIPES
 void	ft_manage_pipes(t_command *command_struct, char **envp);
+char	**ft_split_pipes(const char *s, char c);
 
 // REDIRECTIONS
 int		ft_check_redirection(char **word_struct);
