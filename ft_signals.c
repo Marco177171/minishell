@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 15:18:08 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/13 18:45:54 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/21 17:18:08 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void    sig_handler()
 {
-    printf("\n");
-    rl_on_new_line();
-    // rl_replace_line("", 0);
-    rl_redisplay();
+	printf("\n");
+	rl_on_new_line();
+	// rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	ft_terminate_process()
 {
-	printf("terminating process..\n");
+	printf("exit\n");
 	free(g_exit_status);
 	exit(0);
 }
