@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/19 19:05:16 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/24 19:35:23 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,18 +129,32 @@ void	ft_trunc(t_command *command_struct, int pipe_index, char **envp, int stdout
 	ft_redirect_and_execute(command_struct, pipe_index, envp, fd, stdoutcpy);
 }
 
-void	ft_heredoc(t_command *command_struct, int pipe_index, char **envp, int stdincpy, int index, int fd)
+char	*ft_remove_heredoc(char *pipe)
+{
+	char	*updated;
+	int		index;
+
+	index = 0;
+	while (pipe[index] != '<')
+		index++;
+	updated = malloc(sizeof(char) * index + 1);
+	index = 0;
+	while (pipe[index] != '<')
+	{
+		updated[index] = pipe[index];
+		index++;
+	}
+	updated[index] = '\0';
+	free(pipe);
+	return (updated);
+}
+
+void	ft_heredoc(t_command *command_struct, int pipe_index, char **envp, int stdincpy, int index)
 {
 	char	*interrupter;
-	char	*swap;
-	char	*swap_and_space;
 	char	*sub_readline;
-	int		check_index;
-	// (void)pipe_index;
-	// envp = NULL;
-	// (void)stdincpy;
-	// (void)fd;
-	fd = 0;
+	int		pipes[2];
+
 	stdincpy = 0;
 	if (command_struct->word_matrix[index + 1] == NULL)
 	{
@@ -150,27 +164,31 @@ void	ft_heredoc(t_command *command_struct, int pipe_index, char **envp, int stdi
 	else
 	{
 		interrupter = strdup(command_struct->word_matrix[index + 1]);
+		command_struct->pipe_matrix[pipe_index] = ft_remove_heredoc(command_struct->pipe_matrix[pipe_index]);
+		ft_free_matrix(command_struct->word_matrix);
+		command_struct->word_matrix = ft_split(command_struct->pipe_matrix[pipe_index], ' ');
+		pipe(pipes);
 		while (1)
 		{
-			swap = ft_strdup(command_struct->pipe_matrix[pipe_index]);
-			swap_and_space = ft_strjoin(swap, " ");
 			sub_readline = readline("> ");
-			free(command_struct->pipe_matrix[pipe_index]);
-			command_struct->pipe_matrix[pipe_index] = ft_strjoin(swap_and_space, sub_readline);
-			free(swap);
-			free(swap_and_space);
-			free(sub_readline);
-			ft_free_matrix(command_struct->word_matrix);
-			command_struct->word_matrix = ft_split(command_struct->pipe_matrix[pipe_index], ' ');
-			check_index = 0;
-			while (command_struct->word_matrix[check_index + 1] != NULL)
-				check_index++;
-			if (ft_strcmp(command_struct->word_matrix[check_index], interrupter) == 0)
+			if (ft_strcmp(sub_readline, interrupter) == 0)
 			{
-				ft_recognize_command(command_struct, pipe_index, envp);
+				write(pipes[1], "\0", 1);
+				free(sub_readline);
 				break ;
 			}
+			else
+			{
+				write(pipes[1], sub_readline, ft_strlen(sub_readline));
+				write(pipes[1], "\n", 1);
+				free(sub_readline);
+			}
 		}
+		close(pipes[1]);
+		dup2(pipes[0], STDIN_FILENO);
+		if (index != 0)
+			ft_recognize_command(command_struct, pipe_index, envp);
+		close(pipes[0]);
 		free(interrupter);
 		return ;
 	}
@@ -204,12 +222,7 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 	int		stdoutcpy;
 	int		stdincpy;
 	int		fd_in;
-	// int		check_index;
-	// char	*end_word;
-	// char	*swap;
-	// char	*swap_and_space;
-	// char	*sub_readline;
-	
+
 	fd_out = 0;
 	fd_in = 0;
 	index = 0;
@@ -236,7 +249,7 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 		{
 			if (ft_strcmp(command_struct->word_matrix[index], "<<") == 0)
 			{
-				ft_heredoc(command_struct, pipe_index, envp, stdincpy, index, fd_in);
+				ft_heredoc(command_struct, pipe_index, envp, stdincpy, index);
 				break ;
 			}
 			else if (ft_strcmp(command_struct->word_matrix[index], "<") == 0)
@@ -250,4 +263,5 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 		else
 			return ;
 	}
+	dup2(stdincpy, 0);
 }

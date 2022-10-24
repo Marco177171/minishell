@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 18:19:47 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/15 17:27:42 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/24 19:48:05 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	ft_check_redirection(char **word_struct)
 	index = 0;
 	while (word_struct[index])
 	{
+		// jump quotes!!!
 		if (strncmp(word_struct[index], ">>\0", 3) == 0 ||
 			strncmp(word_struct[index], ">\0", 2) == 0 ||
 			strncmp(word_struct[index], "<<\0", 3) == 0 ||
