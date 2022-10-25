@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:22:55 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/19 17:46:26 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/25 18:55:46 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_print_dollar(char *str, int fd)
 		env = getenv(env_var_name);
 		if (env != NULL)
 			write(fd, env, strlen(env));
-		else if(!env_var_name[0])
+		else if (!env_var_name[0])
 			write(fd, "$", 1);
 	}
 	return (index);
@@ -50,9 +50,9 @@ int	ft_print_dollar(char *str, int fd)
 
 char	*ft_adjust_pipe(char *pipe)
 {
-	int index;
-	int result_index;
-	char *new_pipe;
+	int		index;
+	int		result_index;
+	char	*new_pipe;
 
 	index = 0;
 	result_index = 0;
@@ -88,7 +88,7 @@ char	*ft_adjust_pipe(char *pipe)
 	}
 	new_pipe[result_index] = '\0';
 	free(pipe);
-	return(new_pipe);
+	return (new_pipe);
 }
 
 int	ft_echo(t_command *command_struct, int pipe_index)
@@ -99,7 +99,7 @@ int	ft_echo(t_command *command_struct, int pipe_index)
 	index = 0;
 	flag = 0;
 	command_struct->pipe_matrix[pipe_index] = ft_adjust_pipe(command_struct->pipe_matrix[pipe_index]);
- 	if (ft_check_quote(command_struct->pipe_matrix[pipe_index]) == 1)
+	if (ft_check_quote(command_struct->pipe_matrix[pipe_index]) == 1)
 	{
 		while (command_struct->pipe_matrix[pipe_index][index] == ' ')
 			index++;

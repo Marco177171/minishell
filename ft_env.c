@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 19:17:10 by gmeoli            #+#    #+#             */
-/*   Updated: 2022/09/28 15:32:59 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/25 18:56:30 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ int	ft_env(t_command *command_struct, char **envp)
 			index++;
 		}
 		*g_exit_status = 0;
-		return (0);	
+		return (0);
 	}
 }

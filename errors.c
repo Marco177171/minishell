@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:28:51 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/18 16:28:12 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/25 18:48:01 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_error(void)
 
 void	ft_command_not_found(char *str)
 {
-    write(2, "minishell: ", 11);
+	write(2, "minishell: ", 11);
 	write(2, str, ft_strlen(str));
 	write(2, ": command not found\n", 20);
 }

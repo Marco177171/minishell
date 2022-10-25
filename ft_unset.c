@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 18:03:21 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/04 10:44:13 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/25 19:09:46 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	**ft_create_freed_copy(char **envp, int index)
 {
-	int i;
-	int j;
-	char **result;
+	int		i;
+	int		j;
+	char	**result;
 
 	i = 0;
 	while (envp[i])
@@ -44,8 +44,8 @@ char	**ft_create_freed_copy(char **envp, int index)
 
 char	**ft_find_in_envp(char *key, char **envp)
 {
-	int index;
-	char **couple;
+	int		index;
+	char	**couple;
 
 	index = 0;
 	while (envp[index])

@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 10:59:12 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/21 17:37:40 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/25 19:02:58 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_buble_sort_env(char **envp)
 	int		i;
 	int		j;
 	char	*tmp;
-	char 	**envp2;
+	char	**envp2;
 
 	length = 0;
 	i = 0;
@@ -142,7 +142,7 @@ int	ft_append_new_key(char **envp, char *new_key)
 	return (0);
 }
 
-int ft_check_char(char *str)
+int	ft_check_char(char *str)
 {
 	if ((str[0] >= 65 && str[0] <= 90) || (str[0] >= 97 && str[0] <= 122))
 		return (0);
@@ -157,10 +157,10 @@ int	ft_export(t_command *command_struct, char **envp)
 
 	matrix_index = 1;
 	exit_flag = 0;
-	if (command_struct->word_matrix[1] && ft_strncmp(command_struct->word_matrix[1], ">>\0", 3) != 0 &&
-		ft_strncmp(command_struct->word_matrix[1], ">\0", 2) != 0 &&
-		ft_strncmp(command_struct->word_matrix[1], "<<\0", 3) != 0 &&
-		ft_strncmp(command_struct->word_matrix[1], "<\0", 2) != 0)
+	if (command_struct->word_matrix[1] && ft_strncmp(command_struct->word_matrix[1], ">>\0", 3) != 0
+		&& ft_strncmp(command_struct->word_matrix[1], ">\0", 2) != 0
+		&& ft_strncmp(command_struct->word_matrix[1], "<<\0", 3) != 0
+		&& ft_strncmp(command_struct->word_matrix[1], "<\0", 2) != 0)
 	{
 		while (command_struct->word_matrix[matrix_index])
 		{

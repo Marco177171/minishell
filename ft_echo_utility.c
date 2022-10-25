@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:50:36 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/25 17:28:15 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/25 18:53:54 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_print_double_quote(char *string, int fd)
 	return (index);
 }
 
-void    ft_print_exit(void)
+void	ft_print_exit(void)
 {
 	char	*status;
 

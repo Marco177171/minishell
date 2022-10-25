@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 17:29:07 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/18 15:33:22 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/25 19:03:47 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_child(t_command *command_struct, char **envp)
 	int		index;
 	char	*path;
 	char	**mypath;
-	
+
 	path = getenv("PATH");
 	mypath = ft_split(path, ':');
 	index = -1;

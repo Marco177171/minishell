@@ -6,36 +6,11 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 17:19:47 by gmeoli            #+#    #+#             */
-/*   Updated: 2022/10/24 19:54:46 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/25 18:50:43 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_find_dest_len(char *path)
-{
-	int	index;
-	int	total_slashes;
-	int	slashes;
-
-	index = 0;
-	total_slashes = 0;
-	slashes = 0;
-	while (path[index])
-	{
-		if (path[index] == '/')
-			total_slashes++;
-		index++;
-	}
-	index = 0;
-	while (path[index] && slashes < total_slashes)
-	{
-		if (path[index] == '/')
-			slashes++;
-		index++;
-	}
-	return (index);
-}
 
 char	*ft_go_to_parent(char *path)
 {
@@ -66,22 +41,6 @@ char	*ft_go_to_parent(char *path)
 	}
 	destination[index] = '\0';
 	return (destination);
-}
-
-int	ft_find_home_len(char *path)
-{
-	int	index;
-	int	slashes;
-
-	index = 0;
-	slashes = 0;
-	while (path[index] && slashes <= 2)
-	{
-		if (path[index] == '/')
-			slashes++;
-		index++;
-	}
-	return (index);
 }
 
 char	*ft_go_home(char *path)

@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:11:31 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/21 17:31:39 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/25 19:11:50 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_command {
 void	ft_error(void);
 void	ft_syntax_error(char c);
 void	ft_command_not_found(char *str);
-void 	ft_arg_not_found(char *str);
+void	ft_arg_not_found(char *str);
 void	ft_unexpected_token(void);
 
 // UTILITY
@@ -58,6 +58,10 @@ int		ft_check_equal_presence(char *string);
 void	ft_remove_quotes(char *command);
 void	ft_manage_signals(void);
 int		ft_modify_var(char *new_couple, char **envp);
+
+// CD UTILITY
+int		ft_find_dest_len(char *path);
+int		ft_find_home_len(char *path);
 
 // PIPES
 void	ft_manage_pipes(t_command *command_struct, char **envp);
@@ -77,7 +81,7 @@ int		ft_print_dollar(char *str, int fd);
 
 // BUILTINS
 int		ft_pwd(void);
-void	ft_exit(t_command *command_struct);
+void	ft_exit(t_command *c_struct);
 int		ft_cd(t_command *command_struct);
 int		ft_env(t_command *command_struct, char **envp);
 int		ft_export(t_command *command_struct, char **envp);

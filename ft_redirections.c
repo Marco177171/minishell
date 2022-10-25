@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/25 18:13:37 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/25 19:08:26 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ char	**ft_decrease_word_matrix(char **word_matrix)
 	temp_index = 0;
 	while (word_matrix[index])
 	{
-		if (ft_strncmp(word_matrix[index], ">>\0", 3) == 0 ||
-			ft_strncmp(word_matrix[index], ">\0", 2) == 0 ||
-			ft_strncmp(word_matrix[index], "<<\0", 3) == 0 ||
-			ft_strncmp(word_matrix[index], "<\0", 2) == 0)
+		if (ft_strncmp(word_matrix[index], ">>\0", 3) == 0
+			|| ft_strncmp(word_matrix[index], ">\0", 2) == 0
+			|| ft_strncmp(word_matrix[index], "<<\0", 3) == 0
+			|| ft_strncmp(word_matrix[index], "<\0", 2) == 0)
 			index += 2;
 		else
 		{
@@ -42,7 +42,7 @@ char	**ft_decrease_word_matrix(char **word_matrix)
 	}
 	temp_matrix[temp_index] = NULL;
 	ft_free_matrix(word_matrix);
-	return(temp_matrix);
+	return (temp_matrix);
 }
 
 char	*ft_update_pipe_text(char *pipe)
@@ -59,7 +59,7 @@ char	*ft_update_pipe_text(char *pipe)
 		{
 			index++;
 			count++;
-			while(pipe[index] != '\'')
+			while (pipe[index] != '\'')
 			{
 				index++;
 				count++;
@@ -71,7 +71,7 @@ char	*ft_update_pipe_text(char *pipe)
 		{
 			index++;
 			count++;
-			while(pipe[index] != '"')
+			while (pipe[index] != '"')
 			{
 				index++;
 				count++;
@@ -104,14 +104,14 @@ char	*ft_update_pipe_text(char *pipe)
 		if (pipe[index] == '\'')
 		{
 			updated[count++] = pipe[index++];
-			while(pipe[index] != '\'')
+			while (pipe[index] != '\'')
 				updated[count++] = pipe[index++];
 			updated[count++] = pipe[index++];
 		}
 		else if (pipe[index] == '"')
 		{
 			updated[count++] = pipe[index++];
-			while(pipe[index] != '"')
+			while (pipe[index] != '"')
 				updated[count++] = pipe[index++];
 			updated[count++] = pipe[index++];
 		}
@@ -154,7 +154,7 @@ void	ft_append(t_command *command_struct, int pipe_index, char **envp, int stdou
 		ft_unexpected_token();
 		return ;
 	}
-	fd = open(command_struct->word_matrix[index + 1], O_APPEND|O_CREAT|O_WRONLY, 0644);
+	fd = open(command_struct->word_matrix[index + 1], O_APPEND | O_CREAT | O_WRONLY, 0644);
 	ft_redirect_and_execute(command_struct, pipe_index, envp, fd, stdoutcpy);
 }
 
@@ -165,7 +165,7 @@ void	ft_trunc(t_command *command_struct, int pipe_index, char **envp, int stdout
 		ft_unexpected_token();
 		return ;
 	}
-	fd = open(command_struct->word_matrix[index + 1], O_TRUNC|O_CREAT|O_WRONLY, 0644);
+	fd = open(command_struct->word_matrix[index + 1], O_TRUNC | O_CREAT | O_WRONLY, 0644);
 	ft_redirect_and_execute(command_struct, pipe_index, envp, fd, stdoutcpy);
 }
 
@@ -270,8 +270,8 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 	stdoutcpy = dup(1);
 	while (command_struct->word_matrix[index])
 	{
-		if (ft_strcmp(command_struct->word_matrix[index], ">>") == 0 ||
-			ft_strcmp(command_struct->word_matrix[index], ">") == 0)
+		if (ft_strcmp(command_struct->word_matrix[index], ">>") == 0
+			|| ft_strcmp(command_struct->word_matrix[index], ">") == 0)
 		{
 			if (ft_strcmp(command_struct->word_matrix[index], ">>") == 0)
 			{
@@ -284,8 +284,8 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 				break ;
 			}
 		}
-		else if (ft_strcmp(command_struct->word_matrix[index], "<<") == 0 ||
-			ft_strcmp(command_struct->word_matrix[index], "<") == 0)
+		else if (ft_strcmp(command_struct->word_matrix[index], "<<") == 0
+			|| ft_strcmp(command_struct->word_matrix[index], "<") == 0)
 		{
 			if (ft_strcmp(command_struct->word_matrix[index], "<<") == 0)
 			{
