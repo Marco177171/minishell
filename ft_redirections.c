@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/25 17:43:33 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/25 18:13:37 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ char	*ft_update_pipe_text(char *pipe)
 		}
 	}
 	free(pipe);
-	printf("updated = %s\n", updated);
 	return (updated);
 }
 
