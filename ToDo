@@ -1,5 +1,0 @@
-not working!
-
-echo "ciao | ls > file"
-
-soluzione: echo rientra in recognize_command all'interno della redirection e ripete il controllo della stringa. Per qualche motivo la flag di controllo ritorna -1!
