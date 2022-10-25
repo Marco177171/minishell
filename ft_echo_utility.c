@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:50:36 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/19 16:56:03 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/25 16:26:46 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	ft_check_quote(char *str)
 		}
 		else if (str[index] == '\"')
 		{
-			// flag = ft_check_quote2(str, &index, &flag);
 			flag *= -1;
 			index++;
 			while (str[index])

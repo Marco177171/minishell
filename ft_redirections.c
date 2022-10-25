@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/24 19:35:23 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/25 16:45:09 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ char	**ft_decrease_word_matrix(char **word_matrix)
 	int		index;
 	int		temp_index;
 	char	**temp_matrix;
+	int		flag ;
 
 	index = 0;
+	flag = 1;
 	while (word_matrix[index])
 		index++;
 	temp_matrix = malloc(sizeof(char *) * index);
@@ -28,7 +30,7 @@ char	**ft_decrease_word_matrix(char **word_matrix)
 	{
 		if (ft_strncmp(word_matrix[index], ">>\0", 3) == 0 ||
 			ft_strncmp(word_matrix[index], ">\0", 2) == 0 ||
-			ft_strncmp(word_matrix[index], "<<\0", 2) == 0 ||
+			ft_strncmp(word_matrix[index], "<<\0", 3) == 0 ||
 			ft_strncmp(word_matrix[index], "<\0", 2) == 0)
 			index += 2;
 		else
@@ -53,7 +55,31 @@ char	*ft_update_pipe_text(char *pipe)
 	count = 0;
 	while (pipe[index])
 	{
-		if (pipe[index] == '>' || pipe[index] == '<')
+		if (pipe[index] == '\'')
+		{
+			index++;
+			count++;
+			while(pipe[index] != '\'')
+			{
+				index++;
+				count++;
+			}
+			index++;
+			count++;
+		}
+		else if (pipe[index] == '"')
+		{
+			index++;
+			count++;
+			while(pipe[index] != '"')
+			{
+				index++;
+				count++;
+			}
+			index++;
+			count++;
+		}
+		else if (pipe[index] == '>' || pipe[index] == '<')
 		{
 			index++;
 			while (pipe[index] != ' ' && pipe[index])
@@ -75,7 +101,32 @@ char	*ft_update_pipe_text(char *pipe)
 	count = 0;
 	while (pipe[index])
 	{
-		if (pipe[index] == '>' || pipe[index] == '<')
+		printf("updated= %c\n", index);
+		if (pipe[index] == '\'')
+		{
+			updated[count] = pipe[index];
+			index++;
+			while(pipe[index] != '\'')
+			{
+				updated[count] = pipe[index];
+				index++;
+			}
+			updated[count] = pipe[index];
+			index++;
+		}
+		else if (pipe[index] == '"')
+		{
+			updated[count] = pipe[index];
+			index++;
+			while(pipe[index] != '"')
+			{
+				updated[count] = pipe[index];
+				index++;
+			}
+			updated[count] = pipe[index];
+			index++;
+		}
+		else if (pipe[index] == '>' || pipe[index] == '<')
 		{
 			index++;
 			while (pipe[index] != ' ' && pipe[index])
@@ -92,6 +143,7 @@ char	*ft_update_pipe_text(char *pipe)
 			index++;
 		}
 	}
+	printf("updated string = %s\n", updated);
 	free(pipe);
 	return (updated);
 }

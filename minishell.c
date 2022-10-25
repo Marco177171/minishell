@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:12:49 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/21 17:18:03 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/25 15:05:43 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,22 @@ int	ft_check_syntax(char *command)
 	index = 0;
 	while (command[index])
 	{
+		if (command[index] == '\'')
+		{
+			index++;
+			while (command[index] != '\'' && command[index])
+				index++;
+			if (command[index + 1])
+				index++;
+		}
+		else if (command[index] == '"')
+		{
+			index++;
+			while (command[index] != '"' && command[index])
+				index++;
+			if (command[index + 1])
+				index++;
+		}
 		if (command[index] == '|')
 		{
 			flag = 1;
