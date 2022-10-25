@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/25 16:45:09 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/25 17:32:20 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*ft_update_pipe_text(char *pipe)
 			index++;
 			count++;
 		}
-		else if (pipe[index] == '>' || pipe[index] == '<')
+		if (pipe[index] == '>' || pipe[index] == '<')
 		{
 			index++;
 			while (pipe[index] != ' ' && pipe[index])
@@ -101,32 +101,7 @@ char	*ft_update_pipe_text(char *pipe)
 	count = 0;
 	while (pipe[index])
 	{
-		printf("updated= %c\n", index);
-		if (pipe[index] == '\'')
-		{
-			updated[count] = pipe[index];
-			index++;
-			while(pipe[index] != '\'')
-			{
-				updated[count] = pipe[index];
-				index++;
-			}
-			updated[count] = pipe[index];
-			index++;
-		}
-		else if (pipe[index] == '"')
-		{
-			updated[count] = pipe[index];
-			index++;
-			while(pipe[index] != '"')
-			{
-				updated[count] = pipe[index];
-				index++;
-			}
-			updated[count] = pipe[index];
-			index++;
-		}
-		else if (pipe[index] == '>' || pipe[index] == '<')
+		if (pipe[index] == '>' || pipe[index] == '<')
 		{
 			index++;
 			while (pipe[index] != ' ' && pipe[index])
@@ -143,7 +118,6 @@ char	*ft_update_pipe_text(char *pipe)
 			index++;
 		}
 	}
-	printf("updated string = %s\n", updated);
 	free(pipe);
 	return (updated);
 }
