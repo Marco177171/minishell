@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 15:18:08 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/26 17:58:50 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/26 18:31:50 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,22 @@
 void	ft_ctrl_c(char **envp)
 {
 	int	n;
+	char	*cmd[3];
 
+	cmd[0] = ft_strdup("stty");
+	cmd[1] = ft_strdup("-echoctl");
+	cmd[2] = NULL;
 	n = fork();
-	if (!n) 
-	{
-	char *cmd[] = {"/bin/stty", 0 };
-	char *cmd_args[] = {" ", "-echoctl", 0};
-	execve(cmd[0], cmd_args, envp);
-	}
+	if (!n)
+		execve("/bin/stty", cmd, envp);
+	waitpid(-1, NULL, 0);
+	free(cmd[0]);
+	free(cmd[1]);
 }
 
 void	sig_new_line(int n)
 {
 	n = 0;
-	// ft_putendl_fd("", 1);
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
