@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:12:49 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/25 19:11:05 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/26 17:54:08 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,8 @@ void	ft_execute_cycle(t_command *command_struct, char **envp)
 	swap = NULL;
 	sub_readline = NULL;
 	command_struct->command_string = readline("minishell$ ");
+	if (!command_struct->command_string)
+		ft_exit_on_signal();
 	if (command_struct->command_string[0] != '\0')
 	{
 		if (ft_check_syntax(command_struct->command_string) == 1)
@@ -248,6 +250,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		ft_init_struct(&command_struct);
 		ft_modify_var(command_struct.current_shell_level, envp);
+		ft_ctrl_c(envp);
 		while (TRUE)
 		{
 			ft_manage_signals();

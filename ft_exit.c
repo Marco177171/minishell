@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 14:29:36 by gmeoli            #+#    #+#             */
-/*   Updated: 2022/10/25 18:57:15 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/26 17:03:52 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 void	ft_exit(t_command *c_struct)
 {
-	if (c_struct->total_pipes == 1)
-		printf("exit\n");
+	printf("exit\n");
 	if (c_struct->word_matrix[1])
 		printf("exit: %s: numeric argument required\n", c_struct->word_matrix[1]);
 	if (c_struct->pipe_matrix)

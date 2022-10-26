@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 13:46:29 by gmeoli            #+#    #+#             */
-/*   Updated: 2022/10/21 13:53:26 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/26 17:16:33 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,14 @@ int	ft_pipe_total(char *input)
 		index++;
 	}
 	return (pipe_total);
+}
+
+void	ft_exit_on_signal(void)
+{
+	int	exit_status_copy;
+
+	exit_status_copy = *g_exit_status;
+	printf("exit\n");
+	free(g_exit_status);
+	exit(exit_status_copy);
 }

@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:11:31 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/25 19:11:50 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/26 17:54:47 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int		ft_check_equal_presence(char *string);
 void	ft_remove_quotes(char *command);
 void	ft_manage_signals(void);
 int		ft_modify_var(char *new_couple, char **envp);
+void	ft_exit_on_signal(void);
 
 // CD UTILITY
 int		ft_find_dest_len(char *path);
@@ -92,6 +93,9 @@ int		ft_other_commands(t_command *command_struct, char **envp);
 int		ft_recognize_command(t_command *command_struct, int pipe_index, char **envp);
 
 // RLS
-// extern void	rl_replace_line(const char *text, int clear_undo);
+extern void	rl_replace_line(const char *text, int clear_undo);
+
+// SIGNALS
+void	ft_ctrl_c(char **envp);
 
 #endif
