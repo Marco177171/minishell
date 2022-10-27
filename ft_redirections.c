@@ -6,7 +6,7 @@
 /*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:45:04 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/25 19:08:26 by masebast         ###   ########.fr       */
+/*   Updated: 2022/10/27 16:22:51 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,6 +255,36 @@ void	ft_input_redirect(t_command *command_struct, int pipe_index, char **envp, i
 	close(fd);
 }
 
+int	ft_find_quotes(char *word)
+{
+	int		index;
+	int		flag;
+	char	quote;
+
+	index = 0;
+	flag = 0;
+	while (word[index])
+	{
+		if (word[index] == '\'' || word[index] == '\"')
+		{
+			flag = 1;
+			quote = word[index];
+			index++;
+			while (word[index])
+			{
+				if (word[index] == quote)
+				{
+					flag = 0;
+					break ;
+				}
+				index++;
+			}
+		}
+		index++;
+	}
+	return (flag);
+}
+
 void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 {
 	int		fd_out;
@@ -270,6 +300,12 @@ void	ft_redirect(t_command *command_struct, int pipe_index, char **envp)
 	stdoutcpy = dup(1);
 	while (command_struct->word_matrix[index])
 	{
+		if (ft_find_quotes(command_struct->word_matrix[index]) == 1)
+		{
+			index++;
+			while (ft_find_quotes(command_struct->word_matrix[index]) != 1)
+				index++;
+		}
 		if (ft_strcmp(command_struct->word_matrix[index], ">>") == 0
 			|| ft_strcmp(command_struct->word_matrix[index], ">") == 0)
 		{

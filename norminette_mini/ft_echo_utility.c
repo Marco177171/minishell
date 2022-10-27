@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo_utility.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmeoli <gmeoli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: masebast <masebast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:50:36 by masebast          #+#    #+#             */
-/*   Updated: 2022/10/27 11:39:15 by gmeoli           ###   ########.fr       */
+/*   Updated: 2022/10/27 15:10:38 by masebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,42 +56,27 @@ void	ft_print_exit(void)
 
 int	ft_check_quote(char *str)
 {
-	int	index;
-	int	flag;
+	int		index;
+	int		flag;
+	char	quote_kind;
 
-	index = 0;
+	index = -1;
 	flag = 1;
-	while (str[index])
+	while (str[++index])
 	{
-		if (str[index] == '\'')
+		if (str[index] == '\'' || str[index] == '\"')
 		{
+			quote_kind = str[index];
 			flag *= -1;
-			index++;
-			while (str[index])
+			while (str[++index])
 			{
-				if (str[index] == '\'')
+				if (str[index] == quote_kind)
 				{
 					flag *= -1;
 					break ;
 				}
-				index++;
 			}
 		}
-		else if (str[index] == '\"')
-		{
-			flag *= -1;
-			index++;
-			while (str[index])
-			{
-				if (str[index] == '\"')
-				{
-					flag *= -1;
-					break ;
-				}
-				index++;
-			}
-		}
-		index++;
 	}
 	return (flag);
 }
