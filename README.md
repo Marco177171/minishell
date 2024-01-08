@@ -27,5 +27,5 @@ If you have any questions, suggestions, or want to discuss this project further,
 - GitHub: https://www.github.com/Marco177171
 Thank you for exploring minishell! I hope this program provides a comprehensive environment for users to experiment with bash-like functionalities.
 
-Have a nice day!
+Have a nice day!  
 Marco Sebastiani
